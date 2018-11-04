@@ -1,9 +1,20 @@
 <html>
-	<head>
-		<title>
-			Schoolora
-		</title>
-	 <meta charset="utf-8">
+	
+<head>
+<title>
+	Schoolora
+</title>
+
+
+
+
+
+<link href="Style.css" rel="stylesheet">
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+ <meta charset="utf-8">
    <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -153,9 +164,9 @@
       resize: none;
   }
   </style>
-	</head>
-	<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
-	<nav class="navbar navbar-default navbar-fixed-top">
+<!------ Include the above in your HEAD tag ---------->
+</head>
+<nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -186,29 +197,40 @@
         <li> <a href="#">Log out</a></li>
         
         
-        <li><a href="sign_in.php">Sign In</a></li>
+        <li><a href="#">Sign In</a></li>
         <li><a href="sign_up.php">Sign Up</a></li>
         <li><a href="#"><span class="glyphicon glyphicon-search"></span></a></li>
       </ul>
     </div>
   </div>
 </nav>
-<!-- Footer -->
-<div class="footer" style="position: fixed;
-	left: 0;
-	border: 0;
-	width: 100%;
-	float:bottom">
-<footer class="footer">
-
-  <!-- Copyright -->
-  <div class="footer-copyright text-center py-3" >© 2018 
-    <a href="Index.php"> Schoolora</a>
-  </div>
-  <!-- Copyright -->
-
-</footer>
-<!-- Footer -->
+<div class="container" >
+    <div class="row" >
+        <div class="col-xs-12 col-sm-12 col-md-4 well well-sm" >
+            <legend><a href="http://www.jquery2dotnet.com"><i class="glyphicon glyphicon-globe"></i></a> Sign up!</legend>
+            <form action="#" method="post" class="form" role="form">
+            <div class="row" >
+                <div class="col-xs-12 col-md-10"><label>Name</label><br>
+                    <input class="form-control" name="firstname" placeholder="First Name and Last name" type="text"
+                        required autofocus />
+                        <br>
+                </div>
+                
+            </div>
+            <label>Email id</label>
+            <br>
+            <input class="form-control" name="youremail" placeholder="Your Email" type="email" />
+            <br>
+            <label>Password</label>
+            <br>
+            <input class="form-control" name="password" placeholder="Password" type="password" />
+           
+            <br />
+            <br />
+            <button class="btn btn-lg btn-primary btn-block" type="submit">
+                Sign up</button>
+            </form>
+        </div>
+    </div>
 </div>
-	</body>
 </html>
