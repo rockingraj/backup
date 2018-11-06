@@ -316,7 +316,7 @@ session_start();
                                 <?php
                                     if($row["answer"]){
                                         $nul=0;
-                                        echo $row["answer"]."<br><small>Answered By: @".$row['answeredby']."</small>";
+                                        echo $row["answer"]."<br><small>Answered By: @".$row['answerdby']."</small>";
                                     }
                                     else{
                                         $nul=1;

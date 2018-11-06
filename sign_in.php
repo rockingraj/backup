@@ -16,10 +16,10 @@
 
         $inuser = valid( $_POST["username"] );
         $inkey = valid( $_POST["password"] );
-
+ 
         include("connect.php");
 
-        $query = "SELECT username, password, name, email, join_date FROM users WHERE username='$inuser'";
+        $query = "SELECT user_name, pass, name, join_date FROM users WHERE user_name='$inuser'";
 
         $result = mysqli_query( $conn, $query);
         if(mysqli_error($conn)){
@@ -27,17 +27,18 @@
         }
         else if( mysqli_num_rows($result) > 0 ){
             while( $row = mysqli_fetch_assoc($result) ){
-                $user = $row['username'];
-                $pass = $row['password'];
+				
+                $user = $row['user_name'];
+                $pass = $row['pass'];
                 $name = $row['name'];
-                $email = $row['email'];
+               
                 $date = $row['join_date'];
             }
 
-            if( password_verify( $inkey, $pass ) ){
+            if(  $inkey==$pass  ){
                 $_SESSION['user'] = $user;
                 $_SESSION['name'] = $name;
-                $_SESSION['email'] = $email;
+               
                 $_SESSION['date'] = $date;
                 header('Location: Index.php');
             }
@@ -284,7 +285,7 @@
                     <h1 class="logo"><div id="i"></div><div id="ntro">Schoolora</div></h1>
                     <p id="tag-line"></p>
                 </div>
-                <form action="<?php echo htmlspecialchars( $_SERVER["PHP_SELF"] ); ?>" method="post" enctype="multipart/form-data">
+                <form action="<?php echo htmlspecialchars( $_SERVER["PHP_SELF"] ); ?>" method="post" >
                     <input name="username" id="user" type="text" title="Username" placeholder="Username" required>
                     <input name="password" id="key" type="password" title="Password" placeholder="Password" required>
                     <i class="material-icons" id="lock">lock</i>
@@ -299,6 +300,24 @@
                 </form>
             </center>
         </div>
+        <!-- Footer -->
+<div class="footer" style="position: fixed;
+	left: 0;
+	border: 0;
+	width: 100%;
+	float:bottom;
+	margin-top:650px;">
+<footer class="footer">
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3" >© 2018 
+    <a href="Index.php"> Schoolora</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+</div>
          <!-- Sripts -->
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <script>window.jQuery || document.write('<script type="text/javascript" src="js/jquery-3.2.1.min.js"><\/script>')</script>

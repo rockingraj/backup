@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 06, 2018 at 01:09 PM
+-- Generation Time: Nov 06, 2018 at 09:58 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.10
 
@@ -33,6 +33,13 @@ CREATE TABLE `category` (
   `subject_name` varchar(25) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `category`
+--
+
+INSERT INTO `category` (`cid`, `subject_name`) VALUES
+(1, 'science');
+
 -- --------------------------------------------------------
 
 --
@@ -47,6 +54,14 @@ CREATE TABLE `quans` (
   `answerdby` varchar(25) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `quans`
+--
+
+INSERT INTO `quans` (`qid`, `question`, `askedby`, `answer`, `answerdby`) VALUES
+(1, 'can any one explain kepler\'s law..', 'jeevottam', 'Johannes Kepler, working with data painstakingly collected by Tycho Brahe without the aid of a telescope, developed three laws which described the motion of the planets across the sky.\r\n\r\n1. The Law of Orbits: All planets move in elliptical orbits, with the sun at one focus.\r\n\r\n2. The Law of Areas: A line that connects a planet to the sun sweeps out equal areas in equal times.\r\n\r\n3. The Law of Periods: The square of the period of any planet is proportional to the cube of the semimajor axis of its orbit.\r\n\r\nKepler\'s laws were derived for orbits around the sun, but they apply to satellite orbits as well.', 'admin'),
+(2, 'Kepler\'s three laws of planetary motion', 'jeevottam', 'an be stated as follows: (1) All planets move about the Sun in elliptical orbits, having the Sun as one of the foci. (2) A radius vector joining any planet to the Sun sweeps out equal areas in equal lengths of time.', 'admin');
+
 -- --------------------------------------------------------
 
 --
@@ -57,6 +72,13 @@ CREATE TABLE `qucategory` (
   `cid` int(11) NOT NULL,
   `qid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `qucategory`
+--
+
+INSERT INTO `qucategory` (`cid`, `qid`) VALUES
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -88,7 +110,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`uid`, `name`, `user_name`, `pass`, `join_date`) VALUES
-(1, 'root', 'root', NULL, '2018-11-05 15:33:17');
+(1, 'root', 'root', NULL, '2018-11-05 15:33:17'),
+(2, 'Jeevottam Lokurti', 'jeevottam', 'jeevo123', '2018-11-06 18:23:18');
 
 --
 -- Indexes for dumped tables
@@ -132,13 +155,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `quans`
 --
 ALTER TABLE `quans`
-  MODIFY `qid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `qid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
