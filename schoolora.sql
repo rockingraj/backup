@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 04, 2018 at 11:34 AM
+-- Generation Time: Nov 06, 2018 at 01:09 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.10
 
@@ -36,6 +36,42 @@ CREATE TABLE `category` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `quans`
+--
+
+CREATE TABLE `quans` (
+  `qid` int(11) NOT NULL,
+  `question` varchar(1000) DEFAULT NULL,
+  `askedby` varchar(25) DEFAULT NULL,
+  `answer` varchar(1000) DEFAULT NULL,
+  `answerdby` varchar(25) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `qucategory`
+--
+
+CREATE TABLE `qucategory` (
+  `cid` int(11) NOT NULL,
+  `qid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `upvotes`
+--
+
+CREATE TABLE `upvotes` (
+  `qid` int(11) NOT NULL,
+  `upvote` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -48,6 +84,13 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`uid`, `name`, `user_name`, `pass`, `join_date`) VALUES
+(1, 'root', 'root', NULL, '2018-11-05 15:33:17');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -56,6 +99,24 @@ CREATE TABLE `users` (
 --
 ALTER TABLE `category`
   ADD PRIMARY KEY (`cid`);
+
+--
+-- Indexes for table `quans`
+--
+ALTER TABLE `quans`
+  ADD PRIMARY KEY (`qid`);
+
+--
+-- Indexes for table `qucategory`
+--
+ALTER TABLE `qucategory`
+  ADD PRIMARY KEY (`cid`,`qid`);
+
+--
+-- Indexes for table `upvotes`
+--
+ALTER TABLE `upvotes`
+  ADD PRIMARY KEY (`qid`);
 
 --
 -- Indexes for table `users`
@@ -68,10 +129,16 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `quans`
+--
+ALTER TABLE `quans`
+  MODIFY `qid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
