@@ -1,3 +1,13 @@
+<?php
+session_start();
+    include('connect.php');
+
+
+
+
+?>
+
+
 <html>
 	<head>
 		<title>
@@ -152,10 +162,33 @@
   textarea {
       resize: none;
   }
+	  textarea{
+                display: none;
+                width: 300px;
+                height: 50px;
+                background: #FC0;
+                color: #000;
+                padding: 10px;
+                margin: 5px 0 -14px; 
+            }
+            .ans_sub{
+                display: none;
+                padding: 0 10px;
+                height: 30px;
+                line-height: 30px;
+            }
+            .pop{
+                display: none;
+                text-align: center;
+                margin: 151.5px auto;
+                font-size: 12px;
+            }
   </style>
 	</head>
 	<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
+	<div>
 	<nav class="navbar navbar-default navbar-fixed-top">
+	
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -182,23 +215,160 @@
           </ul>
          
         </li>
-        <li><a href="#tour">Hi  <?php echo "Jeevottam"?></a></li>
-        <li> <a href="#">Log out</a></li>
         
+       
+        <?php 
+                if(! isset($_SESSION['user'])){
+            ?>
         
         <li><a href="sign_in.php">Sign In</a></li>
         <li><a href="sign_up.php">Sign Up</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-search"></span></a></li>
+        
+         <?php
+                }
+                else{
+            ?>
+         <li><a href="#tour">Hi  <?php echo $_SESSION["user"]; ?></a></li>
+        <li> <a href="#">Log out</a></li>
+         <?php
+                }
+            ?>
+        <li><a href="#" style="margin-top:4px"><span class="glyphicon glyphicon-search"></span></a></li>
       </ul>
     </div>
   </div>
 </nav>
+ <div id="content" style="margin-top:300px">
+            <div id="searchbox">
+                <center>
+                    <div class="heading">
+                        <h1 class="logo"><div id="i"></div><div id="ntro">Schoolora</div></h1>
+                        
+                    </div>
+                    <form action="<?php echo htmlspecialchars( $_SERVER["PHP_SELF"] ); ?>" method="post" enctype="multipart/form-data" >
+                        <input name="text" id="search" type="text" title="Question your Answers" placeholder="Looking for Answers to Some Question, simply just search here... ">
+                        <i class="material-icons" id="sign">search</i>
+                        <input name="submit" type="submit" value="Search" class="up-in" id="qsearch">
+                    </form>
+                </center>
+            </div>
+            <div class="pop" id="ta">
+                <h1><b style="font-size: 1.5em; margin: -60px auto 10px; display: block;">:(</b>Sorry, Your search didn't match any documents.</h1>
+            </div>
+            <div class="pop" id="tb">
+                <center><h1><b style="font-size: 1.5em; margin: -60px auto 10px; display: block;">:)</b>Thank You For Your Answer.</h1></center>
+            </div>
+            <?php
+
+                if(isset($_POST["submit"])) {
+                    function valid($data){
+                        $data = trim(stripslashes(htmlspecialchars($data)));
+                        return $data;
+                    }
+
+                    function check($data){
+                        $data = strtolower($data);
+                        if( $data != "what" && $data != "how" && $data != "who" && $data != "whom" && $data != "when" && $data != "why" && $data != "which" && $data != "where" && $data != "whose" && $data != "is" && $data != "am" && $data != "are" && $data != "do" && $data != "don't" && $data != "does" && $data != "did" && $data != "done" && $data != "was" && $data != "were" && $data != "has" && $data != "have" && $data != "will" && $data != "shall" && $data != "the" && $data != "i" && $data != "a" && $data != "an" && $data != "we" && $data != "he" && $data != "she" && $data != "")
+                            return 1;
+                        return 0;
+                    }
+                    $text = valid($_POST["text"]);
+                    if($text == NULL){
+                        echo "<script>window.alert('Please Enter something to search.');</script>";
+                    }
+                    else{
+                        $text = preg_replace("/[^A-Za-z0-9]/"," ",$text);
+                        $words = explode(" ",$text);
+                        $format = "select * from quans where question like '%";
+                        $query = "";
+                        foreach($words as $word){
+                            if(check($word)){
+                                if($query == "")
+                                    $query = $format.$word."%'";
+                                else
+                                    $query .= " union ".$format.$word."%'";
+                            }
+                        }
+                        if(!$query){
+                            echo "<script>window.alert('Search appropriate question.');</script>";
+                        }
+                        else{
+                            $r = mysqli_query($conn, $query);
+                            if(mysqli_error($conn))
+                                echo "<script>window.alert('Some Error Occured. Try Again or Contact Us.');</script>";
+                            else if(mysqli_num_rows($r)>0) {
+            ?>
+                <style>.open{display: block;} </style>
+                <center>
+                    <div class='open' style='height: auto; margin: 60px auto -135px;'>
+                        
+                        <div id='topic'>
+                            <h2 id='topic-head' style="font-weight: normal; border:none; font-size: 22px;">Your Search Results for '<?php echo $text; ?>' are :</h2>
+                        </div>
+
+            <?php $n = 1; $nul=0; while( $row = mysqli_fetch_assoc($r) ) { ?>
+                        
+                        <div id="qa-block">
+                            <div class="question">
+                                <div id="Q">Q.</div><?php echo $row["question"]."<small id='sml'>Asked By: @".$row['askedby']."</small>"; ?>
+                            </div>
+                            <div class="answer">
+                                <?php
+                                    if($row["answer"]){
+                                        $nul=0;
+                                        echo $row["answer"]."<br><small>Answered By: @".$row['answeredby']."</small>";
+                                    }
+                                    else{
+                                        $nul=1;
+                                        echo "<em>*** Not Answered Yet ***</em>";
+                                    }
+                                ?>
+                                <form id="f<?php echo $n; ?>" style="margin-bottom: -25px;" action="<?php echo htmlspecialchars( $_SERVER["PHP_SELF"] ); ?>" method="post" enctype="multipart/form-data">
+<!--                                    <input type="button" value="Click here to answer." id="ans_b" >-->
+                                    <label style="margin-bottom: -25px;"><a id="ans_b<?php echo $n; ?>" href="#area<?php echo $no; ?>"><u>Submit your answer</u></a></label>
+                                    <br>
+                                    <script>
+                                        $(function(){
+                                            $('#ans_b<?php echo $n; ?>').click(function(e){
+                                                e.preventDefault();
+                                                $('#area<?php echo $n; ?>').css("display","block");
+                                                $('#ar<?php echo $n; ?>').css("display","block");
+                                                $('#f<?php echo $n; ?>').css("margin-bottom","0px");
+                                            });
+                                        });
+                                    </script>
+                                    <textarea id="area<?php echo $n; ?>" name="answer" placeholder="Your Answer..."></textarea>
+                                    <input style="display: none;" name="question" value="<?php echo $row['question'] ?>">
+                                    <input style="display: none;" name="nul" value="<?php echo $nul ?>">
+                                    <input style="display: none;" name="preby" value="<?php echo $row['answeredby'] ?>">
+                                    <br>
+                                    <input type="submit" name="ansubmit" value="Submit" class="up-in ans_sub" id="ar<?php echo $n; ?>">
+                                    
+                                </form>
+                                
+       
+                            </div>
+                        </div>
+                            <?php $n++; } ?>
+                    </div>
+                </center>
+            <?php     
+                        } // if for no. of rows
+                        else{
+                            echo "<style>#searchbox{display: none;} #ta{display: block;}</style>";
+                        }
+                        }
+                    } // a non null if
+                } // isset for submit
+            ?>
+        </div>
 <!-- Footer -->
 <div class="footer" style="position: fixed;
 	left: 0;
 	border: 0;
 	width: 100%;
-	float:bottom">
+	float:bottom;
+	margin-top:650px;">
 <footer class="footer">
 
   <!-- Copyright -->
@@ -209,6 +379,7 @@
 
 </footer>
 <!-- Footer -->
+</div>
 </div>
 	</body>
 </html>
