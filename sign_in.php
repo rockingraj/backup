@@ -1,5 +1,5 @@
 
-<?php
+ <<!--?php
     session_start();
 
     if( isset($_SESSION['user'])){
@@ -7,7 +7,7 @@
     }
 
     if( isset( $_POST["submit"] ) )
-    {   
+    {
 
         function valid($data){
             $data=trim(stripslashes(htmlspecialchars($data)));
@@ -16,7 +16,7 @@
 
         $inuser = valid( $_POST["username"] );
         $inkey = valid( $_POST["password"] );
- 
+
         include("connect.php");
 
         $query = "SELECT user_name, pass, name, join_date FROM users WHERE user_name='$inuser'";
@@ -27,18 +27,66 @@
         }
         else if( mysqli_num_rows($result) > 0 ){
             while( $row = mysqli_fetch_assoc($result) ){
-				
+
                 $user = $row['user_name'];
                 $pass = $row['pass'];
                 $name = $row['name'];
-               
+
                 $date = $row['join_date'];
             }
 
             if(  $inkey==$pass  ){
                 $_SESSION['user'] = $user;
                 $_SESSION['name'] = $name;
-               
+
+                $_SESSION['date'] = $date;
+                header('Location: Index.php');
+            }
+            else{
+                echo "<script>window.alert('Wrong Username or Password Combination. Try Again');</script>";
+            }
+        }
+        else{
+            echo "<script>window.alert('No Such User exist in database');</script>";
+        }
+        mysqli_close($conn);
+    }
+?-->
+
+
+<?php
+    session_start();
+    if( isset($_SESSION['user'])){
+        header("Location: profile.php");
+    }
+    if( isset( $_POST["submit"] ) )
+    {
+        function valid($data){
+            $data=trim(stripslashes(htmlspecialchars($data)));
+            return $data;
+        }
+        $inuser = valid( $_POST["username"] );
+        $inkey = valid( $_POST["password"] );
+
+        include("connect.php");
+        $query = "SELECT user_name, pass, name, join_date FROM users WHERE user_name='$inuser'";
+        $result = mysqli_query( $conn, $query);
+        if(mysqli_error($conn)){
+            echo "<script>window.alert('Something Goes Wrong. Try Again');</script>";
+        }
+        else if( mysqli_num_rows($result) > 0 ){
+            while( $row = mysqli_fetch_assoc($result) ){
+
+                $user = $row['user_name'];
+                $pass = $row['pass'];
+                $name = $row['name'];
+
+                $date = $row['join_date'];
+            }
+            if(  $inkey==$pass  ){
+                $_SESSION['user'] = $user;
+                $_SESSION['name'] = $name;
+
                 $_SESSION['date'] = $date;
                 header('Location: Index.php');
             }
@@ -87,7 +135,7 @@
   }
   h3, h4 {
       margin: 10px 0 30px 0;
-      letter-spacing: 10px;      
+      letter-spacing: 10px;
       font-size: 20px;
       color: #111;
   }
@@ -106,7 +154,7 @@
   }
   .carousel-inner img {
       -webkit-filter: grayscale(90%);
-      filter: grayscale(90%); /* make all photos black and white */ 
+      filter: grayscale(90%); /* make all photos black and white */
       width: 100%; /* Set width to 100% */
       margin: auto;
   }
@@ -170,7 +218,7 @@
       height: 400px;
       -webkit-filter: grayscale(100%);
       filter: grayscale(100%);
-  }  
+  }
   .navbar {
       font-family: Montserrat, sans-serif;
       margin-bottom: 0;
@@ -180,7 +228,7 @@
       letter-spacing: 4px;
       opacity: 0.9;
   }
-  .navbar li a, .navbar .navbar-brand { 
+  .navbar li a, .navbar .navbar-brand {
       color: #d5d5d5 !important;
   }
   .navbar-nav li a:hover {
@@ -214,7 +262,7 @@
   footer a:hover {
       color: #777;
       text-decoration: none;
-  }  
+  }
   .form-control {
       border-radius: 0;
   }
@@ -225,42 +273,42 @@
 	</head>
 	<body>
 	<nav class="navbar navbar-default navbar-fixed-top">
-	
+
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
+        <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="Index.php">Schoolora</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="Index.php">HOME</a></li>
-        
+
          <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Question
           <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">My Questions</a></li>
             <li><a href="#">Browse Questions</a></li>
-            
-        
-       
-       
+
+
+
+
           </ul>
-         
+
         </li>
-        
-       
-        <?php 
+
+
+        <?php
                 if(! isset($_SESSION['user'])){
             ?>
-        
+
         <li><a href="sign_in.php">Sign In</a></li>
         <li><a href="sign_up.php">Sign Up</a></li>
-        
+
          <?php
                 }
                 else{
@@ -275,9 +323,9 @@
     </div>
   </div>
 </nav>
- 
-       
-	 
+
+
+
 		 <!-- content -->
         <div >
             <center>
@@ -296,7 +344,7 @@
                             <div class="buttons" id="new"><input type="button" value="Create a new account" class="up-in" id="tosign"></div>
                         </center>
                     </div>
-                   
+
                 </form>
             </center>
         </div>
@@ -310,7 +358,7 @@
 <footer class="footer">
 
   <!-- Copyright -->
-  <div class="footer-copyright text-center py-3" >© 2018 
+  <div class="footer-copyright text-center py-3" >© 2018
     <a href="Index.php"> Schoolora</a>
   </div>
   <!-- Copyright -->
@@ -322,6 +370,6 @@
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <script>window.jQuery || document.write('<script type="text/javascript" src="js/jquery-3.2.1.min.js"><\/script>')</script>
         <script type="text/javascript" src="js/script.js"></script>
-        
+
 	</body>
 </html>
